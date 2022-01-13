@@ -21,10 +21,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
-})
-
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })
@@ -51,4 +47,38 @@ const getUsers = (request, response) => {
     })
 }
 
+const getBigJson = (request, response) => {
+    let counter = 0;
+    const mockArr = [];
+    while (counter < 100000) {
+        mockArr.push(
+            {
+                id: Math.ceil(counter * Math.random()),
+                value: Math.random().toString(),
+            }
+        )
+        ++counter;
+    }
+    response.status(200).json(mockArr);
+}
+
+const postSummat = (request, response) => {
+    const object = {
+        value: request.body.value,
+    }
+
+    if (request.body.value) {
+        response.status(200).json(object);
+    } else {
+        response.status(400).json({
+            message: 'Missing argument "value"'
+        })
+    }
+}
+
 app.post('/login', getUsers)
+app.get('/bigJson', getBigJson)
+app.post('/postSummat', postSummat)
+app.get('/', (request, response) => {
+    response.json({ info: 'Node.js, Express, and Postgres API' })
+})
