@@ -63,17 +63,7 @@ const getBigJson = (request, response) => {
 }
 
 const postSummat = (request, response) => {
-    const object = {
-        value: request.body.value,
-    }
-
-    if (request.body.value) {
-        response.status(200).json(object);
-    } else {
-        response.status(400).json({
-            message: 'Missing argument "value"'
-        })
-    }
+    response.status(200).json();
 }
 
 app.post('/login', getUsers)
